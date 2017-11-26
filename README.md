@@ -1,6 +1,5 @@
-# CarND-Controls-PID
-Self-Driving Car Engineer Nanodegree Program
-
+# PID Controller Project
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 ---
 
 ## Dependencies
