@@ -1,26 +1,35 @@
-project(PID)
-
+project(pid)
 cmake_minimum_required (VERSION 3.5)
 
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
+    message(FATAL_ERROR "GCC version must be at least 4.9!")
+  endif()
+endif()
+
 add_definitions(-std=c++11)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -O3 -g")
 
-set(CXX_FLAGS "-Wall")
-set(CMAKE_CXX_FLAGS "${CXX_FLAGS}")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  execute_process(COMMAND brew --prefix openssl
+    OUTPUT_VARIABLE OPENSSL_ROOT_DIR)
+  string(STRIP ${OPENSSL_ROOT_DIR} OPENSSL_ROOT_DIR)
+endif()
 
-set(sources src/PID.cpp src/main.cpp)
+find_package(ZLIB REQUIRED)
 
-include_directories(/usr/local/include)
-link_directories(/usr/local/lib)
+find_package(OpenSSL REQUIRED)
+include_directories(${OPENSSL_INCLUDE_DIR})
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
+find_library(UWS_LIB uWS)
+if(NOT UWS_LIB)
+  message(FATAL_ERROR "uWS library not found")
+endif()
 
-include_directories(/usr/local/opt/openssl/include)
-link_directories(/usr/local/opt/openssl/lib)
-link_directories(/usr/local/Cellar/libuv/1*/lib)
+find_library(UV_LIB uv)
+if(NOT UV_LIB)
+  message(FATAL_ERROR "uv library not found")
+endif()
 
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
-
-
-add_executable(pid ${sources})
-
-target_link_libraries(pid z ssl uv uWS)
+add_subdirectory(src)
+add_subdirectory(test)
