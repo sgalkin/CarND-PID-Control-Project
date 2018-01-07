@@ -5,9 +5,9 @@
 
 #include "twiddle.h"
 
-using namespace std::placeholders;
 
 TEST_CASE("Twiddle") {
+  using namespace std::placeholders;
   using P = Parameters<6>;
   double th = 1e-6;
   P e{{1,2,99.65,4,5,-6}};

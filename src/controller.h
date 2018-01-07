@@ -77,52 +77,6 @@ private:
   Callback cb_;
 };
 
-/*
-class FallbackController
-  : public CallbackController<FallbackController> {
-  using CallbackController<FallbackController>::Callback;
-public:
-  FallbackController(
-    std::unique_ptr<Controller> controller,
-    std::unique_ptr<Controller> fallback,
-    double threshold,
-    Callback cb);
-  double eval(double cte) override;
-
-  bool fallback() const;
-
-private:
-  std::unique_ptr<Controller> controller_;
-  std::unique_ptr<Controller> fallback_;
-  const double threshold_;
-  bool activeFallback_{false};
-};
-*/
-
-/*
-class RecoveryController
-  : public CallbackController<RecoveryController> {
-  using CallbackController<RecoveryController>::Callback;
-  using Factory = std::function<std::unique_ptr<Controller>()>;
-public:
-  RecoveryController(Factory factory,
-                    std::unique_ptr<Controller> recovery,
-                    double startRecovery,
-                    double stopRecovery,
-                    Callback cb);
-  double eval(double cte) override;
-
-  bool recovery() const;
-  void reset();
-
-private:
-  Factory factory_;
-  std::unique_ptr<Controller> controller_;
-  std::unique_ptr<Controller> recovery_;
-  const double startRecovery_;
-  const double stopRecovery_;
-};
-*/
 
 class ScoreController
   : public CallbackController<ScoreController, double> {
