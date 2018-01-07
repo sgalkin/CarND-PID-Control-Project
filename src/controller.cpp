@@ -50,7 +50,7 @@ ScoreController::ScoreController(
 {}
 
 double ScoreController::eval(double cte) {
-  score_ += (skip_ <= step_ && (assert(step_ > skip_), step_ - skip_) < pick_) * cte * cte;
+  score_ += (skip_ <= step_ && (assert(step_ >= skip_), step_ - skip_) < pick_) * cte * cte;
   double r = (assert(controller_), controller_)->eval(cte);
   ++step_;
   if(step_ > skip_ && step_ - skip_ == pick_) {
@@ -73,7 +73,7 @@ ScoreThreshold::ScoreThreshold(
     new ScoreController(
       std::move(controller),
       [this](const ScoreController*, double s) {
-        active_ &= (invoke(this, s > threshold_ || !isfinite(s) ? replace_ : s), false);
+        active_ &= (invoke(this, s > threshold_ || !std::isfinite(s) ? replace_ : s), false);
       }, skip, pick))
   , threshold_(threshold)
   , replace_(replace)
@@ -81,7 +81,7 @@ ScoreThreshold::ScoreThreshold(
 
 double ScoreThreshold::eval(double cte) {
   auto r = controller_->eval(cte);
-  if(controller_->score() > threshold_ || !isfinite(controller_->score()))
+  if(controller_->score() > threshold_ || !std::isfinite(controller_->score()))
     active_ = active_ && (invoke(this, replace_), false);
   return r;
 }

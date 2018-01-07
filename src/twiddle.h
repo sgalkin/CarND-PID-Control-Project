@@ -25,11 +25,11 @@ twiddle(E evaluate, size_t i,
     auto v = evaluate(std::move(c), best);
     if(v < best) {
       delta[i] *= (1 + step);
-      return {std::move(c), std::move(delta), v};
+      return std::make_tuple(std::move(c), std::move(delta), v);
     }
   }
   delta[i] *= (1 - step);
-  return {std::move(candidate), std::move(delta), best};
+  return std::make_tuple(std::move(candidate), std::move(delta), best);
 }
 }
 

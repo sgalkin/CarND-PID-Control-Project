@@ -16,6 +16,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   string(STRIP ${OPENSSL_ROOT_DIR} OPENSSL_ROOT_DIR)
 endif()
 
+find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
 
 find_package(OpenSSL REQUIRED)
