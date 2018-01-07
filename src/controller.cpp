@@ -1,8 +1,6 @@
 #include "controller.h"
-#include <utility>
 #include <cassert>
-
-#include <iostream>
+#include <cmath>
 
 Controller::Controller() {}
 Controller::~Controller() {}
@@ -40,74 +38,6 @@ double PID::eval(double cte) {
   return o;
 }
 
-/*
-FallbackController::FallbackController(
-  std::unique_ptr<Controller> controller,
-  std::unique_ptr<Controller> fallback,
-  double threshold,
-  Callback cb)
-  : CallbackController(std::move(cb))
-  , controller_(std::move(controller))
-  , fallback_(std::move(fallback))
-  , threshold_(threshold)
-{}
-
-double FallbackController::eval(double cte) {
-  activeFallback_ = activeFallback_ || (cte > threshold_ && (invoke(this), true));
-  assert(fallback_);
-  assert(controller_);
-  auto fb = fallback_->eval(cte);
-  return fallback() ? fb : controller_->eval(cte);
-}
-
-bool FallbackController::fallback() const {
-  return activeFallback_;
-}
-*/
-/*
-RecoveryController::RecoveryController(
-  Factory factory,
-  std::unique_ptr<Controller> recovery,
-  double startRecovery,
-  double stopRecovery,
-  Callback cb)
-  : CallbackController(std::move(cb))
-  , factory_(std::move(factory))
-  , controller_(factory_())
-  , recovery_(std::move(recovery))
-  , startRecovery_(startRecovery)
-  , stopRecovery_(stopRecovery)
-{}
-  
-double RecoveryController::eval(double cte) {
-//  std::cerr << "RecoveryController::eval " << cte << std::endl;
-  assert(recovery_);
-  auto r = recovery_->eval(cte);
-  if(recovery()) {
-    if(cte < stopRecovery_) {
-      reset();
-      invoke(this);
-    } else {
-      return r;
-    }
-  } else {
-    if(cte >= startRecovery_) {
-      controller_.reset();
-      invoke(this);
-      return r;
-    }
-  }
-  assert(controller_);
-  return controller_->eval(cte);
-}
-
-bool RecoveryController::recovery() const { return !controller_; }
-void RecoveryController::reset() {
-//  std::cerr << "RecoveryController::reset" << std::endl;
-  controller_ = factory_();
-  assert(controller_);
-};
-*/
 
 ScoreController::ScoreController(
   std::unique_ptr<Controller> controller, Callback cb, size_t skip, size_t pick)
@@ -143,7 +73,7 @@ ScoreThreshold::ScoreThreshold(
     new ScoreController(
       std::move(controller),
       [this](const ScoreController*, double s) {
-        active_ = active_ && (invoke(this, s > threshold_ ? replace_ : s), false);
+        active_ &= (invoke(this, s > threshold_ || !isfinite(s) ? replace_ : s), false);
       }, skip, pick))
   , threshold_(threshold)
   , replace_(replace)
@@ -151,7 +81,7 @@ ScoreThreshold::ScoreThreshold(
 
 double ScoreThreshold::eval(double cte) {
   auto r = controller_->eval(cte);
-  if(controller_->score() > threshold_)
+  if(controller_->score() > threshold_ || !isfinite(controller_->score()))
     active_ = active_ && (invoke(this, replace_), false);
   return r;
 }

@@ -7,6 +7,11 @@ set(sources
   controller.h
   controller.cpp
   twiddle.h
+  configuration.h
+  configuration.cpp
+  processor.h
+  filter.h
+  filter.cpp
   )
 
 add_executable(${CMAKE_PROJECT_NAME} ${sources} ${main})

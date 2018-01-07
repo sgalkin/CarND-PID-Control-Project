@@ -8,10 +8,8 @@ set(sources
   )
 
 set(tests
-  #  test_parameter_space.cpp
   test_twiddle.cpp
   test_controller.cpp
-  #test_twiddle_controller.cpp
   )
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
