@@ -13,7 +13,7 @@ namespace {
   constexpr size_t speed_threshold_grace = 100;
 
   constexpr size_t recorder_skip = 50;
-  constexpr size_t recorder_dump = 100;
+  constexpr size_t recorder_dump = 500;
 }
 
 

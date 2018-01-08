@@ -84,7 +84,7 @@ Steering angle always controlled by PID (`--sKp`, `--sKi`, and `--sKd`).
 2. `cd build`
 3. `cmake .. -G "Unix Makefiles"`
 4. `make`
-5. `make test # -- optional`
+5. `make check # -- optional`
 
 ## Protocol
 The project uses `uWebSocketIO` request-response protocol in communicating with the simulator.
@@ -169,3 +169,4 @@ and fail-fast goals
 1. Try to use different parameters tuning technic
 2. Try to use PID instead of PD to control throttle
 3. Try different input for throttle controller (ie use current angle and/or speed)
+4. Normalize parameters to be on the same scale before running twiddle
