@@ -12,7 +12,14 @@ The project implements _"twiddle"_ parameters tuning algorithm as well.
 **Project objective**: No tire may leave the drivable portion of the track
 surface. The car may not pop up onto ledges or roll over any surfaces that would otherwise be considered unsafe (if humans were in the vehicle).
 
-Demo available <HERE>
+## Demo
+[PID throttle](https://vimeo.com/250195947)
+
+`./pid -p 0.195405 -i 0.004 -d 3.28759 --tKp 0.45372 --tKi 0 --tKd 0.941861`
+
+[Constant throttle](https://vimeo.com/250195946)
+
+`./pid -p 0.195405 -i 0.004 -d 3.28759 -c 0.4`
 
 ---
 
@@ -116,11 +123,22 @@ PID (proportional–integral–derivative) is wildly used control technic.
 PID controller continuously evaluates difference between current state and
 reference (desired) state and applies a correction which consists of
 * proportional - _the main force to achieve convergence to desired state_
-<PIC>
+  ![](./data/P.png)
+  The plot shows how choice of _Kp_ affects the error over time. Choosing smaller
+  value of _Kp_ (orange line) leads to longer convergence. On other hand higher
+  value of _Kp_ gives an opportunity to converge faster (around step 250), but
+  might lead to bigger error (around step 475).
+
+* integral - _fights against potential systematic bias_
+  ![](./data/I.png)
+  The plot shows there is a systematic bias presents in the system. Blue line
+  (_Ki_ == 0) oscillates around small positive value. Choosing small positive
+  value (green curve) as _Ki_ allows get rid of it. The large value
+  (orange curve) might increase overall error.
+
 * derivative - _fights against oscillation around desired state_
-<PIC>
-* integral - _fights against potential systematic bias__
-<PIC>
+  ![](./data/D.png)
+  Proper choice of the _Kd_ allows controller to reduce oscillation.
 
 ### Steering Angle Controller
 * Input - pure simulator cross track error value
