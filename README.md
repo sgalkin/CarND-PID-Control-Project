@@ -99,9 +99,9 @@ The project uses `uWebSocketIO` request-response protocol in communicating with 
 _INPUT_: values provided by the simulator to the c++ program
 ```json
 {
-  "cte": "",            // current cross track error
-  "speed": "",          // current speed
-  "steering_angle": ""  // current steering angle
+  "cte": "current cross track error",
+  "speed": "current speed",
+  "steering_angle": "current steering angle"
 }
 ```
 
@@ -109,8 +109,8 @@ _OUTPUT_: values provided by the c++ program to the simulator
 * `steer` - instruct simulator to adjust steering angle and speed
 ```json
 {
-  "steering_angle": "", // steering angle evaluated on current iteration [-1..1]
-  "throttle": ""        // throttle evaluated on current iteration [-1..1]
+  "steering_angle": "steering angle evaluated on current iteration [-1..1]",
+  "throttle": "throttle evaluated on current iteration [-1..1]"
 }
 ```
 * `reset` - forces simulator to reset state
