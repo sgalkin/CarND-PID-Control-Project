@@ -1,6 +1,7 @@
 # PID Controller Project
+
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
-[![CircleCI](https://circleci.com/gh/sgalkin/CarND-T2P4.svg?style=svg&circle-token=ec4a862f1ebe95c2e269fff5c9ad26c579558837)](https://circleci.com/gh/sgalkin/CarND-T2P4)
+[![CircleCI](https://circleci.com/gh/sgalkin/CarND-T2P4.svg?style=svg&circle-token=19c013433898d143c0ce9504a98485d7b3cb87c2)](https://circleci.com/gh/sgalkin/CarND-T2P4)
 
 ---
 
